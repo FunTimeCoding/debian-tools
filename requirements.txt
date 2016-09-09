@@ -1,0 +1,6 @@
+pep8
+pylint
+pytest
+pytest-cov
+jinja2
+git+ssh://git@github.com/FunTimeCoding/python-utility.git#egg=python-utility
