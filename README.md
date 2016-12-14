@@ -4,28 +4,28 @@
 
 This section explains how to use this project.
 
-Run the main entry point program.
+Run the main program.
 
 ```sh
-PYTHONPATH=. bin/dt --help
+bin/dt --help
 ```
 
 Generate a preconfiguration.
 
 ```sh
-PYTHONPATH=. bin/dt --hostname example --domain example.org --root-password root --user-name example --user-password example --user-real-name "Example User" > preseed.cfg
+bin/dt --hostname example --domain example.org --root-password root --user-name example --user-password example --user-real-name "Example User" > preseed.cfg
 ```
 
-Generate a preconfiguration with plaintext passwords.
+Generate a preconfiguration with plain text passwords.
 
 ```sh
-PYTHONPATH=. bin/dt --hostname example --domain example.org --root-password root --user-name example --user-password example --user-real-name "Example User" --insecure > preseed.cfg
+bin/dt --hostname example --domain example.org --root-password root --user-name example --user-password example --user-real-name "Example User" --insecure > preseed.cfg
 ```
 
 Generate a preconfiguration and pass a proxy.
 
 ```sh
-PYTHONPATH=. bin/dt --hostname example --domain example.org --root-password root --user-name example --user-password example --user-real-name "Example User" --proxy http://proxy:8080 > preseed.cfg
+bin/dt --hostname example --domain example.org --root-password root --user-name example --user-password example --user-real-name "Example User" --proxy http://proxy:8080 > preseed.cfg
 ```
 
 Download example preconfiguration files.
@@ -33,10 +33,9 @@ Download example preconfiguration files.
 Official documentation:
 - https://www.debian.org/releases/jessie/amd64/apbs04.html.en
 - https://www.debian.org/releases/wheezy/amd64/apbs04.html.en
-- https://www.debian.org/releases/squeeze/amd64/apbs04.html.en
 
 ```sh
-bin/download-example-preseed-configs.sh
+bin/download-preconfiguration-examples.sh
 ```
 
 

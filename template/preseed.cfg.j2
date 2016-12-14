@@ -8,12 +8,24 @@ d-i netcfg/get_hostname string {{ hostname }}
 d-i netcfg/get_domain string {{ domain }}
 d-i netcfg/wireless_wep string
 
+{% if static_networking == True -%}
+d-i netcfg/get_ipaddress string {{ address }}
+d-i netcfg/get_netmask string {{ netmask }}
+d-i netcfg/get_gateway string {{ gateway }}
+d-i netcfg/get_nameservers string {{ nameserver }}
+d-i netcfg/confirm_static boolean true
+{%- endif %}
+
 d-i mirror/country string manual
 d-i mirror/http/hostname string {{ mirror }}
 d-i mirror/http/directory string /debian
 d-i mirror/http/proxy string {{ proxy }}
-#d-i apt-setup/non-free boolean true
-#d-i apt-setup/contrib boolean true
+{% if non_free == True -%}
+d-i apt-setup/non-free boolean true
+{%- endif %}
+{% if contrib == True -%}
+d-i apt-setup/contrib boolean true
+{%- endif %}
 
 d-i clock-setup/utc boolean true
 d-i clock-setup/ntp boolean true
@@ -44,7 +56,3 @@ d-i pkgsel/upgrade select full-upgrade
 popularity-contest popularity-contest/participate boolean false
 d-i finish-install/reboot_in_progress note
 d-i debian-installer/exit/poweroff boolean true
-
-{% if release == 'squeeze' -%}
-d-i debian-installer/allow_unauthenticated string true
-{%- endif %}

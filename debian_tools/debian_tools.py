@@ -69,12 +69,47 @@ class DebianTools:
             help='Set a mirror for setup. Default: ' + default_mirror,
             default=default_mirror
         )
+        parser.add_argument(
+            '--non-free',
+            help='Enable non-free sources.',
+            action='store_true'
+        )
+        parser.add_argument(
+            '--contrib',
+            help='Enable contrib sources.',
+            action='store_true'
+        )
+        parser.add_argument(
+            '--static-networking',
+            help='Configure address, netmask, gateway and nameserver manually.',
+            action='store_true'
+        )
+        parser.add_argument(
+            '--address',
+            help='Example: 10.0.0.2',
+            default=''
+        )
+        parser.add_argument(
+            '--netmask',
+            help='Example: 255.0.0.0',
+            default=''
+        )
+        parser.add_argument(
+            '--gateway',
+            help='Example: 10.0.0.1',
+            default=''
+        )
+        parser.add_argument(
+            '--nameserver',
+            help='Example: 10.0.0.1',
+            default=''
+        )
 
         return parser
 
     @staticmethod
     def get_valid_releases():
-        return ['jessie', 'wheezy', 'squeeze']
+        return ['jessie', 'wheezy']
 
     @staticmethod
     def encrypt_password(plain_text: str):
@@ -107,7 +142,14 @@ class DebianTools:
                 user_password=user_password,
                 proxy=self.parsed_arguments.proxy,
                 release=self.parsed_arguments.release,
-                mirror=self.parsed_arguments.mirror
+                mirror=self.parsed_arguments.mirror,
+                static_networking=self.parsed_arguments.static_networking,
+                address=self.parsed_arguments.address,
+                netmask=self.parsed_arguments.netmask,
+                gateway=self.parsed_arguments.gateway,
+                nameserver=self.parsed_arguments.nameserver,
+                non_free=self.parsed_arguments.non_free,
+                contrib=self.parsed_arguments.contrib
             )
         except UndefinedError as exception:
             exit_code = 1
