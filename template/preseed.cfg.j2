@@ -9,6 +9,7 @@ d-i netcfg/get_domain string {{ domain }}
 d-i netcfg/wireless_wep string
 
 {% if static_networking == True -%}
+d-i netcfg/disable_autoconfig boolean true
 d-i netcfg/get_ipaddress string {{ address }}
 d-i netcfg/get_netmask string {{ netmask }}
 d-i netcfg/get_gateway string {{ gateway }}
