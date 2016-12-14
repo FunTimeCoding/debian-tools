@@ -6,5 +6,5 @@ TEMPLATE_DIRECTORY="${SCRIPT_DIRECTORY}/../template/example"
 RELEASES="jessie wheezy squeeze"
 
 for RELEASE in ${RELEASES}; do
-    wget --output-document "${TEMPLATE_DIRECTORY}/${RELEASE}.cfg" https://www.debian.org/releases/${RELEASE}/example-preseed.txt
+    wget --output-document "${TEMPLATE_DIRECTORY}/${RELEASE}.cfg" "https://www.debian.org/releases/${RELEASE}/example-preseed.txt"
 done
