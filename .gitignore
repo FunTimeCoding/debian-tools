@@ -1,8 +1,8 @@
 build
-*.pyc
-*.egg-info
-.pyvenv
+.venv
 .tox
+debian_tools.egg-info
+*.pyc
 
 # pytest
 .coverage

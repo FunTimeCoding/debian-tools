@@ -24,6 +24,12 @@ This section explains how to use this project.
 Run the main program.
 
 ```sh
+bin/dt
+```
+
+Show help.
+
+```sh
 bin/dt --help
 ```
 
