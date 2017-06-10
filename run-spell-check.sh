@@ -7,7 +7,7 @@ BLACKLIST=""
 DICTIONARY=en_US
 
 for FILE in ${MARKDOWN_FILES}; do
-    WORDS=$(hunspell -d "${DICTIONARY}" -p "${SCRIPT_DIRECTORY}/custom.dic" -l "${FILE}" | sort | uniq)
+    WORDS=$(hunspell -d "${DICTIONARY}" -p "${SCRIPT_DIRECTORY}/dict/debian-tools.dic" -l "${FILE}" | sort | uniq)
 
     if [ ! "${WORDS}" = "" ]; then
         echo "${FILE}"
