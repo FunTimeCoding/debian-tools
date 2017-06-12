@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
 DEVICE="${1}"
-OPERATING_SYSTEM=$(uname)
+SYSTEM=$(uname)
 CONFIG_DIRECTORY="${XDG_CONFIG_HOME:-$HOME/.config}"
 USER_DIRECTORIES_FILE="${CONFIG_DIRECTORY}/user-dirs.dirs"
 
@@ -14,9 +14,9 @@ if [ "${DEVICE}" = "" ]; then
     echo "Device format is 'sda', without '/dev/' in front."
     echo "Valid devices:"
 
-    if [ "${OPERATING_SYSTEM}" = "Linux" ]; then
+    if [ "${SYSTEM}" = "Linux" ]; then
         sudo fdisk -l
-    elif [ "${OPERATING_SYSTEM}" = "Darwin" ]; then
+    elif [ "${SYSTEM}" = "Darwin" ]; then
         diskutil list
     fi
 
@@ -60,7 +60,7 @@ if [ ! "${READ}" = "y" ]; then
     exit 1
 fi
 
-if [ "${OPERATING_SYSTEM}" = "Linux" ]; then
+if [ "${SYSTEM}" = "Linux" ]; then
     sudo umount "/dev/${DEVICE}*" || true
     sudo mount | grep -v "${DEVICE}" && UNMOUNTED=true || UNMOUNTED=false
 
@@ -72,7 +72,7 @@ if [ "${OPERATING_SYSTEM}" = "Linux" ]; then
 
     sudo dd if="${IMAGE_NAME}" of="/dev/${DEVICE}"
     sudo eject "/dev/${DEVICE}"
-elif [ "${OPERATING_SYSTEM}" = "Darwin" ]; then
+elif [ "${SYSTEM}" = "Darwin" ]; then
     MAC_NAME=$(echo "${IMAGE_NAME}" | sed 's/iso/img/')
     MAC_PATH="${XDG_DOWNLOAD_DIR}/${MAC_NAME}"
 
