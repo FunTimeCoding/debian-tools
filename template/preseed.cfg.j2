@@ -21,7 +21,7 @@ d-i netcfg/confirm_static boolean true
 
 d-i mirror/country string manual
 d-i mirror/http/hostname string {{ mirror }}
-d-i mirror/http/directory string /debian
+d-i mirror/http/directory string {{ mirror_directory }}
 d-i mirror/http/proxy string {{ proxy }}
 {% if non_free == True -%}
 d-i apt-setup/non-free boolean true

@@ -54,7 +54,7 @@ class DebianTools:
         default_release = valid_releases[0]
         parser.add_argument(
             '--release',
-            help='Select a Debian release. Default: ' + default_release,
+            help='Select a Debian release. Default: {}'.format(default_release),
             choices=valid_releases,
             default=default_release
         )
@@ -66,8 +66,16 @@ class DebianTools:
         default_mirror = 'ftp.de.debian.org'
         parser.add_argument(
             '--mirror',
-            help='Set a mirror for setup. Default: ' + default_mirror,
+            help='Set the mirror hostname. Default: {}'.format(default_mirror),
             default=default_mirror
+        )
+        default_mirror_directory = '/debian'
+        parser.add_argument(
+            '--mirror-directory',
+            help='Set the mirror directory. Default: {}'.format(
+                default_mirror_directory
+            ),
+            default=default_mirror_directory
         )
         parser.add_argument(
             '--non-free',
@@ -108,11 +116,11 @@ class DebianTools:
         return parser
 
     @staticmethod
-    def get_valid_releases():
+    def get_valid_releases() -> list:
         return ['jessie', 'wheezy']
 
     @staticmethod
-    def encrypt_password(plain_text: str):
+    def encrypt_password(plain_text: str) -> str:
         process = subprocess.Popen(
             ['mkpasswd', '--method=sha-512', '--stdin'],
             stdin=subprocess.PIPE,
@@ -143,6 +151,7 @@ class DebianTools:
                 proxy=self.parsed_arguments.proxy,
                 release=self.parsed_arguments.release,
                 mirror=self.parsed_arguments.mirror,
+                mirror_directory=self.parsed_arguments.mirror_directory,
                 static_networking=self.parsed_arguments.static_networking,
                 address=self.parsed_arguments.address,
                 netmask=self.parsed_arguments.netmask,
@@ -153,7 +162,7 @@ class DebianTools:
             )
         except UndefinedError as exception:
             exit_code = 1
-            output = 'UndefinedError: ' + str(exception)
+            output = 'UndefinedError: {}'.format(str(exception))
 
         print(output)
 

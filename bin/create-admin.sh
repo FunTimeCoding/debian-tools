@@ -9,7 +9,7 @@ if [ "${USER_NAME}" = "" ] || [ "${USER_NUMBER}" = "" ]; then
     exit 1
 fi
 
-# Why those groups?
-# adm for /var/log
-# sudo to avoid working as root
+# Reasons for groups
+# adm: /var/log
+# sudo: avoid working as root
 useradd --create-home --user-group --uid "${USER_NUMBER}" --shell /bin/bash --groups sudo,adm "${USER_NAME}"
