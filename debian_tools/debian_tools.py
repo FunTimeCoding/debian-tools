@@ -117,7 +117,7 @@ class DebianTools:
 
     @staticmethod
     def get_valid_releases() -> list:
-        return ['jessie', 'wheezy']
+        return ['jessie', 'stretch']
 
     @staticmethod
     def encrypt_password(plain_text: str) -> str:

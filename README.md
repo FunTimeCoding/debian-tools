@@ -55,7 +55,7 @@ Download example preconfiguration files.
 
 Official documentation:
 - https://www.debian.org/releases/jessie/amd64/apbs04.html.en
-- https://www.debian.org/releases/wheezy/amd64/apbs04.html.en
+- https://www.debian.org/releases/stretch/amd64/apbs04.html.en
 
 ```sh
 bin/download-preconfiguration-examples.sh
