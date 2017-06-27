@@ -8,10 +8,10 @@ from python_utility.custom_argument_parser import CustomArgumentParser
 
 class DebianTools:
     def __init__(self, arguments: list):
-        parser = self.get_parser()
-        self.parsed_arguments = parser.parse_args(arguments)
-        directory = path.dirname(path.abspath(__file__))
-        loader = FileSystemLoader(path.join(directory, '..', 'template'))
+        self.parsed_arguments = self.get_parser().parse_args(arguments)
+        loader = FileSystemLoader(
+            path.join(path.dirname(path.abspath(__file__)), '..', 'template')
+        )
         self.environment = Environment(loader=loader, undefined=StrictUndefined)
 
     @staticmethod
@@ -52,6 +52,11 @@ class DebianTools:
         )
         valid_releases = DebianTools.get_valid_releases()
         default_release = valid_releases[0]
+        parser.add_argument(
+            '--output-document',
+            help='Write output to a file and set permissions to 600',
+            action='store_true'
+        )
         parser.add_argument(
             '--release',
             help='Select a Debian release. Default: {}'.format(default_release),

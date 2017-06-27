@@ -5,5 +5,4 @@ from debian_tools.debian_tools import DebianTools
 
 if __name__ == '__main__':
     application = DebianTools(argv[1:])
-    exit_code = application.run()
-    exit(exit_code)
+    exit(application.run())
