@@ -29,6 +29,19 @@ def test_generate() -> None:
     assert application is not None
 
 
+def test_output_document() -> None:
+    application = DebianTools([
+        '--hostname', 'example',
+        '--domain', 'example.org',
+        '--root-password', 'root',
+        '--user-name', 'example',
+        '--user-password', 'example',
+        '--user-real-name', 'Example User',
+        '--output-document', 'test.cfg'
+    ])
+    assert application is not None
+
+
 def test_generate_static_networking() -> None:
     application = DebianTools([
         '--hostname', 'example',

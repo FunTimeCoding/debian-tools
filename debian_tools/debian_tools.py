@@ -1,5 +1,5 @@
-import subprocess
-from os import path
+from subprocess import Popen, PIPE
+from os import open as file_open, path, fdopen, O_WRONLY, O_CREAT
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 from jinja2 import UndefinedError
@@ -53,15 +53,15 @@ class DebianTools:
         valid_releases = DebianTools.get_valid_releases()
         default_release = valid_releases[0]
         parser.add_argument(
-            '--output-document',
-            help='Write output to a file and set permissions to 600',
-            action='store_true'
-        )
-        parser.add_argument(
             '--release',
             help='Select a Debian release. Default: {}'.format(default_release),
             choices=valid_releases,
             default=default_release
+        )
+        parser.add_argument(
+            '--output-document',
+            help='Create file with 600 permissions and write to it instead of printing to stdout.',
+            default=''
         )
         parser.add_argument(
             '--proxy',
@@ -126,10 +126,10 @@ class DebianTools:
 
     @staticmethod
     def encrypt_password(plain_text: str) -> str:
-        process = subprocess.Popen(
+        process = Popen(
             ['mkpasswd', '--method=sha-512', '--stdin'],
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE
+            stdin=PIPE,
+            stdout=PIPE
         )
         out, err = process.communicate(input=plain_text.encode())
 
@@ -169,6 +169,14 @@ class DebianTools:
             exit_code = 1
             output = 'UndefinedError: {}'.format(str(exception))
 
-        print(output)
+        print('>' + self.parsed_arguments.output_document)
+
+        if self.parsed_arguments.output_document == '':
+            print(output)
+        else:
+            with fdopen(
+                    file_open(self.parsed_arguments.output_document, O_WRONLY | O_CREAT, 0o600), 'w'
+            ) as handle:
+                handle.write(output + '\n')
 
         return exit_code
