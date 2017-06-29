@@ -8,6 +8,7 @@ setup(
     install_requires=[],
     scripts=['bin/dt'],
     packages=['debian_tools'],
+    package_data={'template': ['*.j2']},
     author='Alexander Reitzel',
     author_email='funtimecoding@gmail.com',
     url='http://example.org',
