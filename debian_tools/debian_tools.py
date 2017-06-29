@@ -1,5 +1,6 @@
 from subprocess import Popen, PIPE
 from os import open as file_open, path, fdopen, O_WRONLY, O_CREAT
+import sys
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 from jinja2 import UndefinedError
@@ -9,9 +10,16 @@ from python_utility.custom_argument_parser import CustomArgumentParser
 class DebianTools:
     def __init__(self, arguments: list):
         self.parsed_arguments = self.get_parser().parse_args(arguments)
-        loader = FileSystemLoader(
-            path.join(path.dirname(path.abspath(__file__)), '..', 'template')
-        )
+
+        if hasattr(sys, 'real_prefix'):
+            loader = FileSystemLoader(
+                path.join(path.dirname(path.abspath(__file__)), '..', '..', 'template')
+            )
+        else:
+            loader = FileSystemLoader(
+                path.join(path.dirname(path.abspath(__file__)), '..', 'template')
+            )
+
         self.environment = Environment(loader=loader, undefined=StrictUndefined)
 
     @staticmethod

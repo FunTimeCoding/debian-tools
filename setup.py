@@ -8,7 +8,6 @@ setup(
     install_requires=[],
     scripts=['bin/dt'],
     packages=['debian_tools'],
-    include_package_data=True,
     author='Alexander Reitzel',
     author_email='funtimecoding@gmail.com',
     url='http://example.org',
