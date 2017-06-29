@@ -177,8 +177,6 @@ class DebianTools:
             exit_code = 1
             output = 'UndefinedError: {}'.format(str(exception))
 
-        print('>' + self.parsed_arguments.output_document)
-
         if self.parsed_arguments.output_document == '':
             print(output)
         else:
