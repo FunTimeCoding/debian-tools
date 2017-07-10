@@ -2,11 +2,9 @@
 
 DEVICE="${1}"
 SYSTEM=$(uname)
-CONFIG_DIRECTORY="${XDG_CONFIG_HOME:-$HOME/.config}"
-USER_DIRECTORIES_FILE="${CONFIG_DIRECTORY}/user-dirs.dirs"
 
-if [ -f "${USER_DIRECTORIES_FILE}" ]; then
-    . "${USER_DIRECTORIES_FILE}"
+if [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/user-dirs.dirs" ]; then
+    . "${XDG_CONFIG_HOME:-$HOME/.config}/user-dirs.dirs"
 fi
 
 if [ "${DEVICE}" = "" ]; then
@@ -14,10 +12,10 @@ if [ "${DEVICE}" = "" ]; then
     echo "Device format is 'sda', without '/dev/' in front."
     echo "Valid devices:"
 
-    if [ "${SYSTEM}" = "Linux" ]; then
-        sudo fdisk -l
-    elif [ "${SYSTEM}" = "Darwin" ]; then
+    if [ "${SYSTEM}" = Darwin ]; then
         diskutil list
+    else
+        sudo fdisk -l
     fi
 
     exit 1
@@ -29,17 +27,16 @@ if [ ! -b "/dev/${DEVICE}" ]; then
     exit 1
 fi
 
-# https://www.debian.org/releases/jessie/debian-installer
-VERSION="8.4.0"
-IMAGE_NAME="debian-${VERSION}-amd64-netinst.iso"
+# https://www.debian.org/releases/stretch/debian-installer
+IMAGE_NAME=debian-9.0.0-amd64-netinst.iso
 IMAGE_PATH="${XDG_DOWNLOAD_DIR}/${IMAGE_NAME}"
-LOCATOR="http://cdimage.debian.org/debian-cd/${VERSION}/amd64/iso-cd"
+LOCATOR=http://cdimage.debian.org/debian-cd/9.0.0/amd64/iso-cd
 
 if [ ! -f "${IMAGE_PATH}" ]; then
     wget "${LOCATOR}/${IMAGE_NAME}" --output-document "${IMAGE_PATH}"
 fi
 
-CHECKSUM="7a6b418e6a4ee3ca75dda04d79ed96c9e2c33bb0c703ca7e40c6374ab4590748"
+CHECKSUM=9d98f339016dc2a3998881949a8f0678baede26b5106f18ef1168d7e13606773
 IMAGE_CHECKSUM=$(sha256sum "${IMAGE_PATH}")
 IMAGE_CHECKSUM=$(echo "${IMAGE_CHECKSUM% *}" | xargs)
 
@@ -54,25 +51,13 @@ fi
 echo "Continue? y/N"
 read -r READ
 
-if [ ! "${READ}" = "y" ]; then
+if [ ! "${READ}" = y ]; then
     echo "User abort."
 
     exit 1
 fi
 
-if [ "${SYSTEM}" = "Linux" ]; then
-    sudo umount "/dev/${DEVICE}*" || true
-    sudo mount | grep -v "${DEVICE}" && UNMOUNTED=true || UNMOUNTED=false
-
-    if [ "${UNMOUNTED}" = false ]; then
-        echo "Unmount failed."
-
-        exit 1
-    fi
-
-    sudo dd if="${IMAGE_NAME}" of="/dev/${DEVICE}"
-    sudo eject "/dev/${DEVICE}"
-elif [ "${SYSTEM}" = "Darwin" ]; then
+if [ "${SYSTEM}" = Darwin ]; then
     MAC_NAME=$(echo "${IMAGE_NAME}" | sed 's/iso/img/')
     MAC_PATH="${XDG_DOWNLOAD_DIR}/${MAC_NAME}"
 
@@ -84,4 +69,16 @@ elif [ "${SYSTEM}" = "Darwin" ]; then
     diskutil unmountDisk "/dev/${DEVICE}"
     sudo dd if="${MAC_PATH}" of="/dev/r${DEVICE}" bs=1m
     diskutil eject "/dev/${DEVICE}"
+else
+    sudo umount "/dev/${DEVICE}*" || true
+    sudo mount | grep -v "${DEVICE}" && UNMOUNTED=true || UNMOUNTED=false
+
+    if [ "${UNMOUNTED}" = false ]; then
+        echo "Unmount failed."
+
+        exit 1
+    fi
+
+    sudo dd if="${IMAGE_NAME}" of="/dev/${DEVICE}"
+    sudo eject "/dev/${DEVICE}"
 fi
