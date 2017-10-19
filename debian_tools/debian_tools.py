@@ -1,10 +1,13 @@
 from subprocess import Popen, PIPE
 from os import open as file_open, path, fdopen, O_WRONLY, O_CREAT
+from os import name as os_name
 import sys
+import platform
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 from jinja2 import UndefinedError
 from python_utility.custom_argument_parser import CustomArgumentParser
+from passlib.hash import sha512_crypt
 
 
 class DebianTools:
@@ -13,11 +16,13 @@ class DebianTools:
 
         if hasattr(sys, 'real_prefix'):
             loader = FileSystemLoader(
-                path.join(path.dirname(path.abspath(__file__)), '..', '..', 'template')
+                path.join(path.dirname(path.abspath(__file__)), '..', '..',
+                          'template')
             )
         else:
             loader = FileSystemLoader(
-                path.join(path.dirname(path.abspath(__file__)), '..', 'template')
+                path.join(path.dirname(path.abspath(__file__)), '..',
+                          'template')
             )
 
         self.environment = Environment(loader=loader, undefined=StrictUndefined)
@@ -133,27 +138,42 @@ class DebianTools:
         return ['jessie', 'stretch']
 
     @staticmethod
-    def encrypt_password(plain_text: str) -> str:
+    def encrypt_password_mkpasswd(plain_text: str) -> str:
         process = Popen(
             ['mkpasswd', '--method=sha-512', '--stdin'],
             stdin=PIPE,
             stdout=PIPE
         )
-        out, err = process.communicate(input=plain_text.encode())
+        standard_output, standard_error = process.communicate(
+            input=plain_text.encode()
+        )
 
-        return out.decode().strip()
+        return standard_output.decode().strip()
+
+    @staticmethod
+    def encrypt_password_passlib(plain_text: str) -> str:
+        return sha512_crypt.encrypt(plain_text)
 
     def run(self) -> int:
         template = self.environment.get_template('preseed.cfg.j2')
         exit_code = 0
 
         try:
-            root_password = DebianTools.encrypt_password(
-                self.parsed_arguments.root_password
-            )
-            user_password = DebianTools.encrypt_password(
-                self.parsed_arguments.user_password
-            )
+            if 'nt' == os_name or 'Darwin' == platform.system():
+                root_password = DebianTools.encrypt_password_passlib(
+                    self.parsed_arguments.root_password
+                )
+                user_password = DebianTools.encrypt_password_passlib(
+                    self.parsed_arguments.user_password
+                )
+            else:
+                root_password = DebianTools.encrypt_password_mkpasswd(
+                    self.parsed_arguments.root_password
+                )
+                user_password = DebianTools.encrypt_password_mkpasswd(
+                    self.parsed_arguments.user_password
+                )
+
             output = template.render(
                 hostname=self.parsed_arguments.hostname,
                 domain=self.parsed_arguments.domain,
@@ -181,7 +201,8 @@ class DebianTools:
             print(output)
         else:
             with fdopen(
-                    file_open(self.parsed_arguments.output_document, O_WRONLY | O_CREAT, 0o600), 'w'
+                    file_open(self.parsed_arguments.output_document,
+                              O_WRONLY | O_CREAT, 0o600), 'w'
             ) as handle:
                 handle.write(output + '\n')
 
