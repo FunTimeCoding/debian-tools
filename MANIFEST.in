@@ -1,1 +1,1 @@
-recursive-include template *.j2
+recursive-include debian_tools/template *.j2
