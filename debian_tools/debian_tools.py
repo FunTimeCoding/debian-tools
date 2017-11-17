@@ -16,13 +16,24 @@ class DebianTools:
 
         if hasattr(sys, 'real_prefix'):
             loader = FileSystemLoader(
-                path.join(path.dirname(path.abspath(__file__)), '..', '..',
-                          'template')
+                path.join(
+                    path.dirname(
+                        path.abspath(__file__)
+                    ),
+                    '..',
+                    '..',
+                    'template'
+                )
             )
         else:
             loader = FileSystemLoader(
-                path.join(path.dirname(path.abspath(__file__)), '..',
-                          'template')
+                path.join(
+                    path.dirname(
+                        path.abspath(__file__)
+                    ),
+                    '..',
+                    'template'
+                )
             )
 
         self.environment = Environment(loader=loader, undefined=StrictUndefined)
@@ -73,7 +84,8 @@ class DebianTools:
         )
         parser.add_argument(
             '--output-document',
-            help='Create file with 600 permissions and write to it instead of printing to stdout.',
+            help='Create file with 600 permissions and write to it instead of'
+                 ' printing to stdout.',
             default=''
         )
         parser.add_argument(
@@ -201,8 +213,12 @@ class DebianTools:
             print(output)
         else:
             with fdopen(
-                    file_open(self.parsed_arguments.output_document,
-                              O_WRONLY | O_CREAT, 0o600), 'w'
+                    file_open(
+                        self.parsed_arguments.output_document,
+                        (O_WRONLY | O_CREAT),
+                        0o600
+                    ),
+                    'w'
             ) as handle:
                 handle.write(output + '\n')
 
