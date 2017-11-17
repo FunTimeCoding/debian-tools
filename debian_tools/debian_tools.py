@@ -1,7 +1,6 @@
 from subprocess import Popen, PIPE
 from os import open as file_open, path, fdopen, O_WRONLY, O_CREAT
 from os import name as os_name
-import sys
 import platform
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
@@ -9,34 +8,23 @@ from jinja2 import UndefinedError
 from python_utility.custom_argument_parser import CustomArgumentParser
 from passlib.hash import sha512_crypt
 
+import debian_tools
+
 
 class DebianTools:
     def __init__(self, arguments: list):
         self.parsed_arguments = self.get_parser().parse_args(arguments)
-
-        if hasattr(sys, 'real_prefix'):
-            loader = FileSystemLoader(
+        self.environment = Environment(
+            loader=FileSystemLoader(
                 path.join(
                     path.dirname(
-                        path.abspath(__file__)
+                        path.abspath(debian_tools.__file__)
                     ),
-                    '..',
-                    '..',
                     'template'
                 )
-            )
-        else:
-            loader = FileSystemLoader(
-                path.join(
-                    path.dirname(
-                        path.abspath(__file__)
-                    ),
-                    '..',
-                    'template'
-                )
-            )
-
-        self.environment = Environment(loader=loader, undefined=StrictUndefined)
+            ),
+            undefined=StrictUndefined
+        )
 
     @staticmethod
     def get_parser() -> CustomArgumentParser:
