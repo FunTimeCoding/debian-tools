@@ -62,14 +62,6 @@ class DebianTools:
             help='Example: example',
             required=True
         )
-        valid_releases = DebianTools.get_valid_releases()
-        default_release = valid_releases[0]
-        parser.add_argument(
-            '--release',
-            help='Select a Debian release. Default: {}'.format(default_release),
-            choices=valid_releases,
-            default=default_release
-        )
         parser.add_argument(
             '--output-document',
             help='Create file with 600 permissions and write to it instead of'
@@ -134,10 +126,6 @@ class DebianTools:
         return parser
 
     @staticmethod
-    def get_valid_releases() -> list:
-        return ['jessie', 'stretch']
-
-    @staticmethod
     def encrypt_password_mkpasswd(plain_text: str) -> str:
         process = Popen(
             ['mkpasswd', '--method=sha-512', '--stdin'],
@@ -182,7 +170,6 @@ class DebianTools:
                 user_real_name=self.parsed_arguments.user_real_name,
                 user_password=user_password,
                 proxy=self.parsed_arguments.proxy,
-                release=self.parsed_arguments.release,
                 mirror=self.parsed_arguments.mirror,
                 mirror_directory=self.parsed_arguments.mirror_directory,
                 static_networking=self.parsed_arguments.static_networking,

@@ -18,19 +18,18 @@ def test_run_with_help_argument() -> None:
 
 
 def test_generate() -> None:
-    application = DebianTools([
+    assert DebianTools([
         '--hostname', 'example',
         '--domain', 'example.org',
         '--root-password', 'root',
         '--user-name', 'example',
         '--user-password', 'example',
         '--user-real-name', 'Example User'
-    ])
-    assert application is not None
+    ]) is not None
 
 
 def test_output_document() -> None:
-    application = DebianTools([
+    assert DebianTools([
         '--hostname', 'example',
         '--domain', 'example.org',
         '--root-password', 'root',
@@ -38,12 +37,11 @@ def test_output_document() -> None:
         '--user-password', 'example',
         '--user-real-name', 'Example User',
         '--output-document', 'test.cfg'
-    ])
-    assert application is not None
+    ]) is not None
 
 
 def test_generate_static_networking() -> None:
-    application = DebianTools([
+    assert DebianTools([
         '--hostname', 'example',
         '--domain', 'example.org',
         '--root-password', 'root',
@@ -55,5 +53,4 @@ def test_generate_static_networking() -> None:
         '--netmask', '255.0.0.0',
         '--gateway', '10.0.0.1',
         '--nameserver', '10.0.0.1'
-    ])
-    assert application is not None
+    ]) is not None

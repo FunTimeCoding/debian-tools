@@ -17,3 +17,6 @@ poweroff
 nooverwrite
 nameserver
 cdimage
+pkgsel
+bootdev
+preconfiguration
