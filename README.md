@@ -24,31 +24,31 @@ This section explains how to use this project.
 Run the main program.
 
 ```sh
-bin/dt
+dt
 ```
 
 Show help.
 
 ```sh
-bin/dt --help
+dt --help
 ```
 
 Generate a preconfiguration.
 
 ```sh
-bin/dt --hostname example --domain example.org --root-password root --user-name example --user-password example --user-real-name "Example User" > preseed.cfg
+dt --hostname example --domain example.org --root-password root --user-name example --user-password example --user-real-name "Example User" > preseed.cfg
 ```
 
 Generate a preconfiguration with plain text passwords.
 
 ```sh
-bin/dt --hostname example --domain example.org --root-password root --user-name example --user-password example --user-real-name "Example User" --insecure > preseed.cfg
+dt --hostname example --domain example.org --root-password root --user-name example --user-password example --user-real-name "Example User" --insecure > preseed.cfg
 ```
 
 Generate a preconfiguration and pass a proxy.
 
 ```sh
-bin/dt --hostname example --domain example.org --root-password root --user-name example --user-password example --user-real-name "Example User" --proxy http://proxy:8080 > preseed.cfg
+dt --hostname example --domain example.org --root-password root --user-name example --user-password example --user-real-name "Example User" --proxy http://proxy:8080 > preseed.cfg
 ```
 
 Download example preconfiguration files.
