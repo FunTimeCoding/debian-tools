@@ -1,6 +1,6 @@
 from subprocess import Popen, PIPE
 from os import open as file_open, path, fdopen, O_WRONLY, O_CREAT
-from os import name as os_name
+from os import name as os_name, remove
 from os.path import exists
 import platform
 
@@ -10,7 +10,6 @@ from python_utility.custom_argument_parser import CustomArgumentParser
 from passlib.hash import sha512_crypt
 
 import debian_tools
-import shutil
 
 
 class DebianTools:
@@ -190,7 +189,7 @@ class DebianTools:
             print(output)
         else:
             if exists(self.parsed_arguments.output_document):
-                shutil.rmtree(self.parsed_arguments.output_document)
+                remove(self.parsed_arguments.output_document)
 
             with fdopen(
                     file_open(
