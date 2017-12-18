@@ -63,4 +63,6 @@ tasksel tasksel/first multiselect standard, ssh-server
 d-i pkgsel/upgrade select full-upgrade
 popularity-contest popularity-contest/participate boolean false
 d-i finish-install/reboot_in_progress note
+
+# Shut down after installation is complete.
 d-i debian-installer/exit/poweroff boolean true
