@@ -1,7 +1,7 @@
 from subprocess import Popen, PIPE
-from os import open as file_open, path, fdopen, O_WRONLY, O_CREAT
-from os import name as os_name, remove
-from os.path import exists
+from os import open as file_open, fdopen, O_WRONLY, O_CREAT, remove
+from os import name as os_name
+from os.path import exists, join, dirname, abspath
 import platform
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
@@ -17,9 +17,9 @@ class DebianTools:
         self.parsed_arguments = self.get_parser().parse_args(arguments)
         self.environment = Environment(
             loader=FileSystemLoader(
-                path.join(
-                    path.dirname(
-                        path.abspath(debian_tools.__file__)
+                join(
+                    dirname(
+                        abspath(debian_tools.__file__)
                     ),
                     'template'
                 )
