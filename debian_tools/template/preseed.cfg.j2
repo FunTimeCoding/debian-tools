@@ -4,13 +4,17 @@ d-i console-keymaps-at/keymap select us
 d-i keyboard-configuration/xkb-keymap us
 
 d-i netcfg/choose_interface select auto
-# Suggest hostname and domain which may be overridden by the dynamic host configuration protocol server.
-d-i netcfg/get_hostname string {{ hostname }}
-d-i netcfg/get_domain string {{ domain }}
+
+# Suggest hostname and domain which may be overridden by the dynamic host
+#  configuration protocol server. This does not appear to work. Instead, they
+#  are being set via installer arguments.
+#d-i netcfg/get_hostname string {{ hostname }}
+#d-i netcfg/get_domain string {{ domain }}
+# Override the suggested hostname. This also does not work.
+#d-i netcfg/hostname string {{ hostname }}
+
 # Prevent wireless encryption privacy dialog.
 d-i netcfg/wireless_wep string
-# Force set the hostname.
-d-i netcfg/hostname string {{ hostname }}
 
 {% if static_networking == True -%}
 d-i netcfg/disable_autoconfig boolean true
