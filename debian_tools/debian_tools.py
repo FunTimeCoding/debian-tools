@@ -2,6 +2,7 @@ from subprocess import Popen, PIPE
 from os import open as file_open, fdopen, O_WRONLY, O_CREAT, remove
 from os import name as os_name
 from os.path import exists, join, dirname, abspath
+from sys import argv
 import platform
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
@@ -26,6 +27,11 @@ class DebianTools:
             ),
             undefined=StrictUndefined
         )
+
+    @staticmethod
+    def main():
+        application = DebianTools(argv[1:])
+        exit(application.run())
 
     @staticmethod
     def get_parser() -> CustomArgumentParser:
