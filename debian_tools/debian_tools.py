@@ -7,7 +7,7 @@ import platform
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 from jinja2 import UndefinedError
-from python_utility.custom_argument_parser import CustomArgumentParser
+from debian_tools.custom_argument_parser import CustomArgumentParser
 from passlib.hash import sha512_crypt
 
 import debian_tools

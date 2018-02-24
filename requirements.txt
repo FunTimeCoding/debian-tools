@@ -7,6 +7,3 @@ pytest-cov # pytest coverage plugin
 mccabe # static analysis
 jinja2 # template engine
 passlib # crypto library
-
-# helper classes
-git+https://git@github.com/FunTimeCoding/python-utility.git#egg=python-utility
