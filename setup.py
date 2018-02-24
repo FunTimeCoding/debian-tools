@@ -24,7 +24,7 @@ setup(
         'Topic :: Software Development',
     ],
     keywords='development project skeleton',
-    packages=['debian_tools', 'debian_tools.language_example'],
+    packages=['debian_tools'],
     package_data={'debian_tools': ['template/*.j2']},
     install_requires=[],
     python_requires='>=3.2',
