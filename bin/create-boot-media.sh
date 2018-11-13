@@ -28,15 +28,15 @@ if [ ! -b "/dev/${DEVICE}" ]; then
 fi
 
 # https://www.debian.org/releases/stretch/debian-installer
-IMAGE_NAME=debian-9.0.0-amd64-netinst.iso
+IMAGE_NAME=debian-9.6.0-amd64-netinst.iso
 IMAGE_PATH="${XDG_DOWNLOAD_DIR}/${IMAGE_NAME}"
-LOCATOR=http://cdimage.debian.org/debian-cd/9.0.0/amd64/iso-cd
+LOCATOR=http://cdimage.debian.org/debian-cd/9.6.0/amd64/iso-cd
 
 if [ ! -f "${IMAGE_PATH}" ]; then
     wget "${LOCATOR}/${IMAGE_NAME}" --output-document "${IMAGE_PATH}"
 fi
 
-CHECKSUM=9d98f339016dc2a3998881949a8f0678baede26b5106f18ef1168d7e13606773
+CHECKSUM=c51d84019c3637ae9d12aa6658ea8c613860c776bd84c6a71eaaf765a0dd60fe
 IMAGE_CHECKSUM=$(sha256sum "${IMAGE_PATH}")
 IMAGE_CHECKSUM=$(echo "${IMAGE_CHECKSUM% *}" | xargs)
 
