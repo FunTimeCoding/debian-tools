@@ -64,10 +64,10 @@ if [ ! "${READ}" = y ]; then
 fi
 
 if [ "${SYSTEM}" = Darwin ]; then
-    MAC_NAME=$(echo "${IMAGE_NAME}" | sed 's/iso/img/')
+    MAC_NAME=$(echo "${IMAGE_NAME}" | gsed 's/iso/img/')
     MAC_PATH="${XDG_DOWNLOAD_DIR}/${MAC_NAME}"
 
-    if [ -f "${MAC_PATH}" ]; then
+    if [ ! -f "${MAC_PATH}" ]; then
         hdiutil convert -format UDRW -o "${MAC_PATH}" "${IMAGE_PATH}"
         mv "${MAC_PATH}.dmg" "${MAC_PATH}"
     fi
