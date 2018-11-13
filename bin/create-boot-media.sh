@@ -36,8 +36,14 @@ if [ ! -f "${IMAGE_PATH}" ]; then
     wget "${LOCATOR}/${IMAGE_NAME}" --output-document "${IMAGE_PATH}"
 fi
 
+if [ "${SYSTEM}" = Darwin ]; then
+    SHA256SUM='gsha256sum'
+else
+    SHA256SUM='sha256sum'
+fi
+
 CHECKSUM=c51d84019c3637ae9d12aa6658ea8c613860c776bd84c6a71eaaf765a0dd60fe
-IMAGE_CHECKSUM=$(sha256sum "${IMAGE_PATH}")
+IMAGE_CHECKSUM=$(${SHA256SUM} "${IMAGE_PATH}")
 IMAGE_CHECKSUM=$(echo "${IMAGE_CHECKSUM% *}" | xargs)
 
 if [ ! "${IMAGE_CHECKSUM}" = "${CHECKSUM}" ]; then
