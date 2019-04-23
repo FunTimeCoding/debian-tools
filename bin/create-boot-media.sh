@@ -27,10 +27,11 @@ if [ ! -b "/dev/${DEVICE}" ]; then
     exit 1
 fi
 
-# https://www.debian.org/releases/stretch/debian-installer
-IMAGE_NAME=debian-9.6.0-amd64-netinst.iso
+VERSION=$(bin/show-debian-version.sh | grep --only-matching '[0-9].[0-9]')
+VERSION="${VERSION}.0"
+IMAGE_NAME="debian-${VERSION}-amd64-netinst.iso"
 IMAGE_PATH="${XDG_DOWNLOAD_DIR}/${IMAGE_NAME}"
-LOCATOR=http://cdimage.debian.org/debian-cd/9.6.0/amd64/iso-cd
+LOCATOR="http://cdimage.debian.org/debian-cd/${VERSION}/amd64/iso-cd"
 
 if [ ! -f "${IMAGE_PATH}" ]; then
     wget "${LOCATOR}/${IMAGE_NAME}" --output-document "${IMAGE_PATH}"
@@ -42,7 +43,7 @@ else
     SHA256SUM='sha256sum'
 fi
 
-CHECKSUM=c51d84019c3637ae9d12aa6658ea8c613860c776bd84c6a71eaaf765a0dd60fe
+CHECKSUM=$(curl --silent "https://cdimage.debian.org/debian-cd/${VERSION}/amd64/iso-cd/SHA256SUMS" | grep "${IMAGE_NAME}" | awk '{ print $1 }')
 IMAGE_CHECKSUM=$(${SHA256SUM} "${IMAGE_PATH}")
 IMAGE_CHECKSUM=$(echo "${IMAGE_CHECKSUM% *}" | xargs)
 
@@ -85,6 +86,6 @@ else
         exit 1
     fi
 
-    sudo dd if="${IMAGE_NAME}" of="/dev/${DEVICE}"
+    sudo dd if="${IMAGE_PATH}" of="/dev/${DEVICE}"
     sudo eject "/dev/${DEVICE}"
 fi
