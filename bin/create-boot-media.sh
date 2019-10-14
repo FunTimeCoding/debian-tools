@@ -27,7 +27,7 @@ if [ ! -b "/dev/${DEVICE}" ]; then
     exit 1
 fi
 
-VERSION=$(bin/show-debian-version.sh | grep --only-matching '[0-9].[0-9]')
+VERSION=$(bin/show-debian-version.sh | grep --only-matching '[0-9]\+\.[0-9]\+')
 VERSION="${VERSION}.0"
 IMAGE_NAME="debian-${VERSION}-amd64-netinst.iso"
 IMAGE_PATH="${XDG_DOWNLOAD_DIR}/${IMAGE_NAME}"
