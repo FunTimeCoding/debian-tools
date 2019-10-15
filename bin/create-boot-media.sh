@@ -2,9 +2,16 @@
 
 if [ "${1}" = '--firmware' ]; then
     FIRMWARE=true
+
     shift
 else
     FIRMWARE=false
+fi
+
+if [ "${1}" = '--version' ]; then
+    VERSION="${2}"
+
+    shift 2
 fi
 
 DEVICE="${1}"
@@ -34,19 +41,30 @@ if [ ! -b "/dev/${DEVICE}" ]; then
     exit 1
 fi
 
-VERSION=$(bin/show-debian-version.sh | grep --only-matching '[0-9]\+\.[0-9]\+')
-VERSION="${VERSION}.0"
+if [ "${VERSION}" = '' ]; then
+    VERSION=$(bin/show-debian-version.sh | grep --only-matching '[0-9]\+\.[0-9]\+')
+    VERSION="${VERSION}.0"
 
-if [ "${FIRMWARE}" = true ]; then
-    IMAGE_NAME="firmware-${VERSION}-amd64-netinst.iso"
-    LOCATOR="https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/${VERSION}+nonfree/amd64/iso-cd"
+    if [ "${FIRMWARE}" = true ]; then
+        IMAGE_NAME="firmware-${VERSION}-amd64-netinst.iso"
+        LOCATOR="https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/${VERSION}+nonfree/amd64/iso-cd"
+    else
+        IMAGE_NAME="debian-${VERSION}-amd64-netinst.iso"
+        LOCATOR="https://cdimage.debian.org/debian-cd/${VERSION}/amd64/iso-cd"
+    fi
 else
-    IMAGE_NAME="debian-${VERSION}-amd64-netinst.iso"
-    LOCATOR="https://cdimage.debian.org/debian-cd/${VERSION}/amd64/iso-cd"
+    VERSION="${VERSION}.0"
+
+    if [ "${FIRMWARE}" = true ]; then
+        IMAGE_NAME="firmware-${VERSION}-amd64-netinst.iso"
+        LOCATOR="https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/archive/${VERSION}+nonfree/amd64/iso-cd"
+    else
+        IMAGE_NAME="debian-${VERSION}-amd64-netinst.iso"
+        LOCATOR="http://cdimage.debian.org/mirror/cdimage/archive/${VERSION}/amd64/iso-cd"
+    fi
 fi
 
 IMAGE_PATH="${XDG_DOWNLOAD_DIR}/${IMAGE_NAME}"
-
 
 if [ ! -f "${IMAGE_PATH}" ]; then
     wget "${LOCATOR}/${IMAGE_NAME}" --output-document "${IMAGE_PATH}"
