@@ -1,5 +1,12 @@
 #!/bin/sh -e
 
+if [ "${1}" = '--firmware' ]; then
+    FIRMWARE=true
+    shift
+else
+    FIRMWARE=false
+fi
+
 DEVICE="${1}"
 SYSTEM=$(uname)
 
@@ -29,9 +36,17 @@ fi
 
 VERSION=$(bin/show-debian-version.sh | grep --only-matching '[0-9]\+\.[0-9]\+')
 VERSION="${VERSION}.0"
-IMAGE_NAME="debian-${VERSION}-amd64-netinst.iso"
+
+if [ "${FIRMWARE}" = true ]; then
+    IMAGE_NAME="firmware-${VERSION}-amd64-netinst.iso"
+    LOCATOR="https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/${VERSION}+nonfree/amd64/iso-cd"
+else
+    IMAGE_NAME="debian-${VERSION}-amd64-netinst.iso"
+    LOCATOR="https://cdimage.debian.org/debian-cd/${VERSION}/amd64/iso-cd"
+fi
+
 IMAGE_PATH="${XDG_DOWNLOAD_DIR}/${IMAGE_NAME}"
-LOCATOR="http://cdimage.debian.org/debian-cd/${VERSION}/amd64/iso-cd"
+
 
 if [ ! -f "${IMAGE_PATH}" ]; then
     wget "${LOCATOR}/${IMAGE_NAME}" --output-document "${IMAGE_PATH}"
@@ -43,7 +58,7 @@ else
     SHA256SUM='sha256sum'
 fi
 
-CHECKSUM=$(curl --silent "https://cdimage.debian.org/debian-cd/${VERSION}/amd64/iso-cd/SHA256SUMS" | grep "${IMAGE_NAME}" | awk '{ print $1 }')
+CHECKSUM=$(curl --silent "${LOCATOR}/SHA256SUMS" | grep "${IMAGE_NAME}" | awk '{ print $1 }')
 IMAGE_CHECKSUM=$(${SHA256SUM} "${IMAGE_PATH}")
 IMAGE_CHECKSUM=$(echo "${IMAGE_CHECKSUM% *}" | xargs)
 
