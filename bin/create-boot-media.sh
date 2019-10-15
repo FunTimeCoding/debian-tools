@@ -21,7 +21,7 @@ if [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/user-dirs.dirs" ]; then
     . "${XDG_CONFIG_HOME:-$HOME/.config}/user-dirs.dirs"
 fi
 
-if [ "${DEVICE}" = "" ]; then
+if [ "${DEVICE}" = '' ]; then
     echo "Usage: ${0} DEVICE"
     echo "Device format is 'sda', without '/dev/' in front."
     echo "Valid devices:"
@@ -48,6 +48,9 @@ if [ "${VERSION}" = '' ]; then
     if [ "${FIRMWARE}" = true ]; then
         IMAGE_NAME="firmware-${VERSION}-amd64-netinst.iso"
         LOCATOR="https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/${VERSION}+nonfree/amd64/iso-cd"
+        # TODO: Support DVD besides netboot? Maybe that means too many conditions.
+        #IMAGE_NAME="firmware-${VERSION}-amd64-DVD-1.iso"
+        #LOCATOR="https://cdimage.debian.org/cdimage/unofficial/non-free/cd-including-firmware/${VERSION}+nonfree/amd64/iso-dvd"
     else
         IMAGE_NAME="debian-${VERSION}-amd64-netinst.iso"
         LOCATOR="https://cdimage.debian.org/debian-cd/${VERSION}/amd64/iso-cd"
