@@ -1,16 +1,17 @@
-pycache
 venv
-htmlcov
-pygtk
-pylint
+pycache
+jinja
 pyyaml
 shyaml
+htmlcov
 pyenchant
+pygtk
 optparse
 contextlib
 asctime
 levelname
 pycodestyle
+passlib
 
 # pytest
 pytest
@@ -18,6 +19,7 @@ exitfirst
 capsys
 
 # pylint
+pylint
 msvs
 rdiv
 asdict

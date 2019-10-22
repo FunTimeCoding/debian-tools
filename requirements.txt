@@ -5,5 +5,6 @@ pyenchant # pylint spell check plugin
 pytest # test framework
 pytest-cov # pytest coverage plugin
 mccabe # static analysis
+pyyaml # YAML parser
 jinja2 # template engine
 passlib # crypto library

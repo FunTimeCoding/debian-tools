@@ -1,2 +1,5 @@
+addr
+inet
+netstat
 mkpasswd
 udev

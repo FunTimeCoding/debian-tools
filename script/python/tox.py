@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from debian_tools.command_process import CommandProcess
+from python_skeleton.command_process import CommandProcess
 
 
 def main():

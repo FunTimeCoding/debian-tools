@@ -1,7 +1,8 @@
 Source: debian-tools
+Section: misc
 Priority: optional
 Maintainer: Alexander Reitzel <funtimecoding@gmail.com>
-Build-Depends: debhelper (>= 9), dh-python, python3-all, python3-setuptools, python3-mccabe, python3-jinja2, python3-passlib
+Build-Depends: debhelper (>= 9), dh-python, python3-all, python3-setuptools, python3-mccabe, python3-yaml, python3-jinja2, python3-passlib
 Standards-Version: 3.9.8
 Homepage: https://github.com/FunTimeCoding/debian-tools
 X-Python3-Version: >= 3.2
@@ -10,7 +11,7 @@ Vcs-Git: https://github.com/FunTimeCoding/debian-tools.git
 
 Package: python3-debian-tools
 Section: python
-Architecture: all
+Architecture: amd64
 Depends: ${python3:Depends}, ${misc:Depends}
-Description: stub short description
- Stub long description.
+Description: short stub description
+ Long stub description.
