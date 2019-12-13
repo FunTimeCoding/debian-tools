@@ -106,7 +106,8 @@ class DebianTools:
         )
         parser.add_argument(
             '--static-networking',
-            help='Configure address, netmask, gateway and nameserver manually.',
+            help='Configure address, netmask, gateway and nameserver'
+                 ' manually.',
             action='store_true'
         )
         parser.add_argument(
@@ -150,7 +151,7 @@ class DebianTools:
         return sha512_crypt.encrypt(plain_text)
 
     def run(self) -> int:
-        template = self.environment.get_template('preseed.cfg.j2')
+        template = self.environment.get_template('preseed.txt')
         exit_code = 0
 
         try:
