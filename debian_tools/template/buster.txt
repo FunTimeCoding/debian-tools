@@ -366,6 +366,8 @@ d-i apt-setup/contrib boolean true
 # installed, and what software you use. The default is not to report back,
 # but sending reports helps the project determine what software is most
 # popular and include it on CDs.
+#popularity-contest popularity-contest/participate boolean false
+
 popularity-contest popularity-contest/participate boolean false
 
 ### Boot loader installation
@@ -389,6 +391,8 @@ d-i grub-installer/with_other_os boolean true
 # determined safely in general, so this needs to be specified:
 #d-i grub-installer/bootdev  string /dev/sda
 # To install to the first device (assuming it is not a USB stick):
+#d-i grub-installer/bootdev  string default
+
 d-i grub-installer/bootdev string default
 
 # Alternatively, if you want to install to a location other than the mbr,
@@ -427,6 +431,8 @@ d-i finish-install/reboot_in_progress note
 # reboot into the installed system.
 #d-i debian-installer/exit/halt boolean true
 # This will power off the machine instead of just halting it.
+#d-i debian-installer/exit/poweroff boolean true
+
 d-i debian-installer/exit/poweroff boolean true
 
 ### Preseeding other packages
