@@ -38,6 +38,8 @@ d-i netcfg/choose_interface select auto
 
 # If you prefer to configure the network manually, uncomment this line and
 # the static network configuration below.
+#d-i netcfg/disable_autoconfig boolean true
+
 {% if static_networking == True -%}
 d-i netcfg/disable_autoconfig boolean true
 {%- endif %}
@@ -131,18 +133,24 @@ d-i mirror/http/proxy string {{ proxy }}
 #d-i passwd/root-password password r00tme
 #d-i passwd/root-password-again password r00tme
 # or encrypted using a crypt(3)  hash.
+#d-i passwd/root-password-crypted password [crypt(3) hash]
+
 d-i passwd/root-password-crypted password {{ root_password }}
 
 # To create a normal user account.
-d-i passwd/user-fullname string {{ user_full_name }}
-d-i passwd/username string {{ user_name }}
+#d-i passwd/user-fullname string Debian User
+#d-i passwd/username string debian
 # Normal user's password, either in clear text
 #d-i passwd/user-password password insecure
 #d-i passwd/user-password-again password insecure
 # or encrypted using a crypt(3) hash.
-d-i passwd/user-password-crypted password {{ user_password }}
+#d-i passwd/user-password-crypted password [crypt(3) hash]
 # Create the first user with the specified UID instead of the default.
 #d-i passwd/user-uid string 1010
+
+d-i passwd/user-fullname string {{ user_full_name }}
+d-i passwd/username string {{ user_name }}
+d-i passwd/user-password-crypted password {{ user_password }}
 
 # The user account will be added to some standard initial groups. To
 # override that, use this.
@@ -159,6 +167,8 @@ d-i time/zone string Europe/Berlin
 # Controls whether to use NTP to set the clock during the install
 d-i clock-setup/ntp boolean true
 # NTP server to use. The default is almost always fine here.
+#d-i clock-setup/ntp-server string ntp.example.com
+
 d-i clock-setup/ntp-server string 0.pool.ntp.org
 
 ### Partitioning
@@ -172,13 +182,15 @@ d-i clock-setup/ntp-server string 0.pool.ntp.org
 # name must be given in traditional, non-devfs format (so e.g. /dev/sda
 # and not e.g. /dev/discs/disc0/disc).
 # For example, to use the first SCSI/SATA hard disk:
-d-i partman-auto/disk string /dev/sda
+#d-i partman-auto/disk string /dev/sda
 # In addition, you'll need to specify the method to use.
 # The presently available methods are:
 # - regular: use the usual partition types for your architecture
 # - lvm:     use LVM to partition the disk
 # - crypto:  use LVM within an encrypted partition
 d-i partman-auto/method string regular
+
+d-i partman-auto/disk string /dev/sda
 
 # If one of the disks that are going to be automatically partitioned
 # contains an old LVM configuration, the user will normally receive a
@@ -377,7 +389,7 @@ d-i grub-installer/with_other_os boolean true
 # determined safely in general, so this needs to be specified:
 #d-i grub-installer/bootdev  string /dev/sda
 # To install to the first device (assuming it is not a USB stick):
-d-i grub-installer/bootdev  string default
+d-i grub-installer/bootdev string default
 
 # Alternatively, if you want to install to a location other than the mbr,
 # uncomment and edit these lines:
