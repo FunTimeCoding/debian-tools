@@ -4,6 +4,7 @@ DEVICE="${1}"
 SYSTEM=$(uname)
 
 if [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/user-dirs.dirs" ]; then
+    # shellcheck source=/dev/null
     . "${XDG_CONFIG_HOME:-$HOME/.config}/user-dirs.dirs"
 fi
 

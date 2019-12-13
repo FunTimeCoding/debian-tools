@@ -20,3 +20,6 @@ htoprc
 nano
 lesshst
 HISTFILE
+chroot
+chsh
+stdin

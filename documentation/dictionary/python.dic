@@ -12,19 +12,22 @@ asctime
 levelname
 pycodestyle
 passlib
+sitepackages
 
 # pytest
 pytest
 exitfirst
 capsys
+addopts
+junitxml
+coveragerc
 
 # pylint
 pylint
 msvs
 rdiv
 asdict
-
-# pylint typos
+fstr
 reenable
 parseable
 typecheck
@@ -33,3 +36,8 @@ mymodule
 inlinevar
 regexes
 classmethod
+
+# tox
+envlist
+testenv
+deps
