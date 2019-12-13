@@ -151,7 +151,7 @@ class DebianTools:
         return sha512_crypt.encrypt(plain_text)
 
     def run(self) -> int:
-        template = self.environment.get_template('preseed.txt')
+        template = self.environment.get_template('buster.txt')
         exit_code = 0
 
         try:
@@ -175,7 +175,7 @@ class DebianTools:
                 domain=self.parsed_arguments.domain,
                 root_password=root_password,
                 user_name=self.parsed_arguments.user_name,
-                user_real_name=self.parsed_arguments.user_real_name,
+                user_full_name=self.parsed_arguments.user_real_name,
                 user_password=user_password,
                 proxy=self.parsed_arguments.proxy,
                 mirror=self.parsed_arguments.mirror,
