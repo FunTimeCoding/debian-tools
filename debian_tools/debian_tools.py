@@ -14,6 +14,14 @@ import debian_tools
 
 
 class DebianTools:
+    STRETCH_RELEASE = 'stretch',
+    BUSTER_RELEASE = 'buster',
+    DEFAULT_RELEASE = BUSTER_RELEASE
+    SUPPORTED_RELEASES = [
+        BUSTER_RELEASE,
+        STRETCH_RELEASE,
+    ]
+
     def __init__(self, arguments: list):
         self.parsed_arguments = self.get_parser().parse_args(arguments)
         self.environment = Environment(
@@ -40,51 +48,57 @@ class DebianTools:
         )
         required = parser.add_argument_group('required named arguments')
         required.add_argument(
+            '--release',
+            default=DebianTools.DEFAULT_RELEASE,
+            choices=DebianTools.SUPPORTED_RELEASES,
+            required=True,
+        )
+        required.add_argument(
             '--hostname',
             help='Example: example',
-            required=True
+            required=True,
         )
         required.add_argument(
             '--domain',
             help='Example: example.org',
-            required=True
+            required=True,
         )
         required.add_argument(
             '--root-password',
             help='Example: root',
-            required=True
+            required=True,
         )
         required.add_argument(
             '--user-name',
             help='Example: example',
-            required=True
+            required=True,
         )
         required.add_argument(
             '--user-real-name',
             help='Example: "Example User"',
-            required=True
+            required=True,
         )
         required.add_argument(
             '--user-password',
             help='Example: example',
-            required=True
+            required=True,
         )
         parser.add_argument(
             '--output-document',
             help='Create file with 600 permissions and write to it instead of'
                  ' printing to stdout.',
-            default=''
+            default='',
         )
         parser.add_argument(
             '--proxy',
             help='Set proxy for setup. Example: http://proxy:8080',
-            default=''
+            default='',
         )
         default_mirror = 'ftp.de.debian.org'
         parser.add_argument(
             '--mirror',
             help='Set the mirror hostname. Default: {}'.format(default_mirror),
-            default=default_mirror
+            default=default_mirror,
         )
         default_mirror_directory = '/debian'
         parser.add_argument(
@@ -92,43 +106,43 @@ class DebianTools:
             help='Set the mirror directory. Default: {}'.format(
                 default_mirror_directory
             ),
-            default=default_mirror_directory
+            default=default_mirror_directory,
         )
         parser.add_argument(
             '--non-free',
             help='Enable non-free sources.',
-            action='store_true'
+            action='store_true',
         )
         parser.add_argument(
             '--contrib',
             help='Enable contrib sources.',
-            action='store_true'
+            action='store_true',
         )
         parser.add_argument(
             '--static-networking',
             help='Configure address, netmask, gateway and nameserver'
                  ' manually.',
-            action='store_true'
+            action='store_true',
         )
         parser.add_argument(
             '--address',
             help='Example: 10.0.0.2',
-            default=''
+            default='',
         )
         parser.add_argument(
             '--netmask',
             help='Example: 255.0.0.0',
-            default=''
+            default='',
         )
         parser.add_argument(
             '--gateway',
             help='Example: 10.0.0.1',
-            default=''
+            default='',
         )
         parser.add_argument(
             '--nameserver',
             help='Example: 10.0.0.1',
-            default=''
+            default='',
         )
 
         return parser
@@ -151,7 +165,9 @@ class DebianTools:
         return sha512_crypt.encrypt(plain_text)
 
     def run(self) -> int:
-        template = self.environment.get_template('buster.txt')
+        template = self.environment.get_template(
+            self.parsed_arguments.release + '.txt'
+        )
         exit_code = 0
 
         try:
@@ -186,7 +202,7 @@ class DebianTools:
                 gateway=self.parsed_arguments.gateway,
                 nameserver=self.parsed_arguments.nameserver,
                 non_free=self.parsed_arguments.non_free,
-                contrib=self.parsed_arguments.contrib
+                contrib=self.parsed_arguments.contrib,
             )
         except UndefinedError as exception:
             exit_code = 1
