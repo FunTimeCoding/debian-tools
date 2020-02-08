@@ -51,7 +51,6 @@ class DebianTools:
             '--release',
             default=DebianTools.DEFAULT_RELEASE,
             choices=DebianTools.SUPPORTED_RELEASES,
-            required=True,
         )
         required.add_argument(
             '--hostname',
