@@ -14,13 +14,8 @@ import debian_tools
 
 
 class DebianTools:
-    STRETCH_RELEASE = 'stretch',
-    BUSTER_RELEASE = 'buster',
-    DEFAULT_RELEASE = BUSTER_RELEASE
-    SUPPORTED_RELEASES = [
-        BUSTER_RELEASE,
-        STRETCH_RELEASE,
-    ]
+    STRETCH_RELEASE = 'stretch'
+    BUSTER_RELEASE = 'buster'
 
     def __init__(self, arguments: list):
         self.parsed_arguments = self.get_parser().parse_args(arguments)
@@ -49,8 +44,11 @@ class DebianTools:
         required = parser.add_argument_group('required named arguments')
         required.add_argument(
             '--release',
-            default=DebianTools.DEFAULT_RELEASE,
-            choices=DebianTools.SUPPORTED_RELEASES,
+            default=DebianTools.BUSTER_RELEASE,
+            choices=[
+                DebianTools.BUSTER_RELEASE,
+                DebianTools.STRETCH_RELEASE
+            ]
         )
         required.add_argument(
             '--hostname',
