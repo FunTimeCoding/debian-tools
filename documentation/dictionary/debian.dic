@@ -20,14 +20,12 @@ netinst
 netcfg
 autoconfig
 ipaddress
-nameservers
 partman
 crypted
 tasksel
 multiselect
 poweroff
 nooverwrite
-nameserver
 cdimage
 pkgsel
 bootdev

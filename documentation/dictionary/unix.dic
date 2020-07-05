@@ -6,6 +6,7 @@ sudo
 uniq
 sshd
 netmask
+nameserver
 nameservers
 DHCP
 realpath
