@@ -55,7 +55,7 @@ d-i grub-installer/only_debian boolean true
 d-i grub-installer/bootdev string default
 
 d-i passwd/root-password-crypted password {{ root_password }}
-d-i passwd/user-fullname string {{ user_real_name }}
+d-i passwd/user-fullname string {{ user_full_name }}
 d-i passwd/username string {{ user_name }}
 d-i passwd/user-password-crypted password {{ user_password }}
 

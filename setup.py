@@ -26,7 +26,7 @@ setup(
     keywords='development project skeleton',
     packages=['debian_tools'],
     package_data={'debian_tools': ['template/*.j2']},
-    install_requires=[],
+    install_requires=['pyyaml'],
     python_requires='>=3.2',
     entry_points={
         'console_scripts': [

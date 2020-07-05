@@ -1,4 +1,4 @@
 #!/bin/sh -e
 
-# shellcheck disable=SC2016
-jjm --locator https://github.com/FunTimeCoding/debian-tools.git --build-command script/build.sh --junit build/junit.xml --checkstyle 'build/log/checkstyle-*.xml' --recipients funtimecoding@gmail.com > job.xml
+REMOTE=$(git config --get remote.origin.url)
+jjm --locator "${REMOTE}" --build-command script/build.sh --junit build/junit.xml --checkstyle 'build/log/checkstyle-*.xml' --recipients funtimecoding@gmail.com >configuration/job.xml
