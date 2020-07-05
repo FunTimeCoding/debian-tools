@@ -11,6 +11,7 @@ pybuild
 buildsystem
 libyaml
 libxslt
+debmon
 motd
 ssmtp
 printcap

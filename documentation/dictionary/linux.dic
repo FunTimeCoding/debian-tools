@@ -1,7 +1,8 @@
 addr
 inet
 netstat
+libpam
+zoneinfo
 mkpasswd
 udev
-zoneinfo
 inittab

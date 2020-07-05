@@ -1,8 +1,14 @@
 executables
 readme
+plugin
 overgeneral
 backtick
 expectedly
+subcommand
+subcommands
+logins
+hostnames
+noninteractive
 bootloader
 partitioner
 bootable
